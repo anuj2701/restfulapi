@@ -9,15 +9,25 @@ app.use(express.json());
 
 // create a new student
 
-app.post("/students",(req,res) => {
-    console.log(req.body);
-    const user = new Student(req.body);
-    user.save().then(() => {
-        res.status(201);
-        res.send(user)
-    }).catch((e) => {
-        res.status(400).send(e);
-    })
+// app.post("/students",(req,res) => {
+//     console.log(req.body);
+//     const user = new Student(req.body);
+//     user.save().then(() => {
+//         res.status(201);
+//         res.send(user)
+//     }).catch((e) => {
+//         res.status(400).send(e);
+//     })
+// })
+
+app.post("/students",async(req,res) => {
+
+    try{
+        const user = new Student(req.body);
+        const createUser = await new user.save();
+        res.status(201).send(createUser);
+    }catch(e){ res.status(400).send(e);}
+
 })
 
  app.listen(port, () => {
